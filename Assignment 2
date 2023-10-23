@@ -35,24 +35,26 @@ class Menu {
 }
 
 // define a JournalEntry class
-class JournalEntry {
-	// define the class members
-	private String text;
-    private int entryOrder;
-
-    // define the constructors
-    public JournalEntry(String text, int entryOrder) {
-        this.text = text;
-        this.entryOrder = entryOrder;
+class Journal {
+	private List<String> entries;
+	
+	// constructor to initialize the list of entries
+    public Journal() {
+        entries = new ArrayList<>();
     }
     
-    // the getter methods
-    public String getText() {
-        return text;
+    // method to add a new entry to the journal
+    public void addEntry(String entry) {
+        entries.add(entry);
     }
-
-    public int getEntryOrder() {
-        return entryOrder;
+    
+    // method to view journal entries, displaying them in reverse order
+    public void viewEntries() {
+    	// reverse the order to show most recent entries first
+        Collections.reverse(entries);
+        for (String entry : entries) {
+            System.out.println(entry);
+        }
     }
 }
 
@@ -143,51 +145,47 @@ public class assigment2 {
 	}
 	
 	static void journal() {
-		 List<JournalEntry> journal = new ArrayList<>(); // creates a new list called journal that can store objects of the type JournalEntry
-	        int entryOrder = 1; // Initialize the entry order counter
-	        Scanner scanner = new Scanner(System.in);
+		// create a Journal object to manage journal entries
+		Journal journal = new Journal();
+        Scanner scanner = new Scanner(System.in);
+        // create a scanner to read user input
+        int choice;
+        String entry;
+        
+        // Display the main menu
+        do {
+        	System.out.println("\n---------- Personal Journal ----------");
+            System.out.println("1) Add Journal Entry");
+            System.out.println("2) View Journal Entries");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
 
-	        loop: while (true) {
-	            System.out.println("\n------------ Personal Journal -------------"); // menu cap
-	            System.out.println("Please choose one of the following options:"); // Instructions
-	            System.out.println("1) Add Journal Entry");
-	            System.out.println("2) View Journal Entries");
-	            System.out.print("Enter your choice here: ");
+            switch (choice) {
+                case 1:
+                    scanner.nextLine(); // consume the newline character
+                    System.out.print("Enter your journal entry: ");
+                    entry = scanner.nextLine();
+                    // add the user's entry to the journal
+                    journal.addEntry(entry);
+                    System.out.println("Entry added!");
+                    break;
+                case 2:
+                    System.out.println("Journal Entries:");
+                    // display journal entries in reverse order (most recent first)
+                    journal.viewEntries();
+                    break;
+                default:
+                	// handle an invalid choice
+                    System.out.println("Invalid choice, please try again.");
+                    break;
+            }
 
-	            int choice = scanner.nextInt();
-	            scanner.nextLine(); // yoink the newline character
+            System.out.println();
+        } while (choice != 3);
 
-	            switch (choice) {
-	                case 1:
-	                    System.out.print("Enter your journal entry: ");
-	                    String entryText = scanner.nextLine(); // yoink the actual journal entry
-
-	                    JournalEntry entry = new JournalEntry(entryText, entryOrder);
-	                    journal.add(entry);
-	                    entryOrder++; // increment the entry order counter
-	                    System.out.println("Your journal entry has been added successfully.");
-	                    break;
-	                case 2:
-	                    if (journal.isEmpty()) {
-	                        System.out.println("Your journal is empty.");
-	                    } else {
-	                        Collections.reverse(journal);
-	                        System.out.println("\nJournal Entries (Most Recent First):");
-	                        for (JournalEntry journalEntry : journal) {
-	                        	// call the getter methods
-	                            System.out.println("Entry Order: " + journalEntry.getEntryOrder());
-	                            System.out.println(journalEntry.getText());
-	                            System.out.println();
-	                        }
-	                        Collections.reverse(journal);
-	                    }
-	                    break;
-	                default:
-	                    System.out.println("The value you entered is invalid. Please try again.\n");
-	                    break;
-	            }
-	        }
-	    }
+        // Close the scanner
+        scanner.close();
+	}
 	
 	static void passGen() {
 		

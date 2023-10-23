@@ -1,0 +1,262 @@
+// imports
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Collections;
+import java.util.List;
+
+/*
+*  FileName:        Assignment2.java
+*  @Description:    A simple program that displays a menu with options.
+*  @author:         Ethan Slonim
+*  StartDate:	    October 16th, 2:03 PM
+*  CompletionDate:  October 20th, 1:25 ~M
+*/
+
+// Define a Menu class
+class Menu {
+    private String[] options; // Instance variable "options"
+
+    public Menu(String[] options) {
+        this.options = options; // Initialize the instance variable with the provided array
+    }
+
+    public void display() {
+    	System.out.println("------------------- Menu ------------------"); // menu cap
+        System.out.println("Please choose one of the following options:"); // Display a message to indicate the start of menu options
+        int i = 1; // Initialize 'i' outside of the loop
+        for (String option : options) {
+            System.out.println(i + ") " + option); // Print each menu option to the console
+            i++; // Increment 'i' for the next option
+        }
+        System.out.print("Enter your choice here: ");
+    }
+}
+
+// define a JournalEntry class
+class JournalEntry {
+	// define the class members
+	private String text;
+    private int entryOrder;
+
+    // define the constructors
+    public JournalEntry(String text, int entryOrder) {
+        this.text = text;
+        this.entryOrder = entryOrder;
+    }
+    
+    // the getter methods
+    public String getText() {
+        return text;
+    }
+
+    public int getEntryOrder() {
+        return entryOrder;
+    }
+}
+
+public class assigment2 {
+	
+	static Random rand = new Random(); // create a static random number across the "assigment2" class
+	static Scanner scanner = new Scanner(System.in); // create a static scanner across the "assigment2" class
+	
+	static void Average() {
+		int temp;
+	    double sum = 0;
+	    System.out.println("Please enter the amount of numbers you wish to calculate the average of: \n"); // Instructions
+	    int totalNumbs = scanner.nextInt();
+	        
+	    for (int i = 1; i <= totalNumbs; i++) {
+	    	System.out.println("Please enter a whole number for the value of number " + i + ": \n"); // Instructions
+	        temp = scanner.nextInt(); // make a 'temp' variable 
+	        sum += temp; // add the current 'temp' to the sum
+	    }
+	    System.out.println("The average of the " + totalNumbs + " numbers selected is: " + (sum / totalNumbs) + "\n");
+	}
+	
+	static void Weather() {
+		System.out.println("-------- Weather App --------"); // menu cap
+	    System.out.println("Enter the temperature in °C: ");
+	    double temperatureCelsius = scanner.nextDouble();
+
+	    if (temperatureCelsius >= 30) {
+	    	System.out.println("It's super hot. Wear light clothing, sunscreen, and a hat.\n");
+	    } else if (temperatureCelsius >= 20) {
+	        System.out.println("It's warm. Wear shorts or light pants and a t-shirt.\n");
+	    } else if (temperatureCelsius >= 10) {
+	        System.out.println("It's cool. Wear long pants and a long-sleeved shirt or a light jacket.\n");
+	    } else if (temperatureCelsius >= 0) {
+	        System.out.println("It's cold. Wear a sweater, a jacket, and pants.\n");
+	    } else {
+	        System.out.println("It's freezing. Wear a heavy coat, gloves, and a scarf.\n");
+	    }
+	}
+	
+	static void HiLoGame() {
+		int tries = 5; // define the number of tries allowed
+		int upLimit = 21; // define the upper limit of the random number
+		boolean boolGuess = false; // define that the user has not got the right guess
+		int guess; // create an int that represents the value of the users guess
+		int randInt = rand.nextInt(upLimit); // create a random int with an upper limit of the variable "upLimit" minus one
+		
+		// check if the random number is zero,
+		if (randInt == 0) { // if it is,
+			randInt++; // make it one
+		}
+		
+		// into text
+		System.out.println("\n------------------ Welcome to The Guessing Game! ---------------------"); // menu cap
+		System.out.println("In this game you will have " + tries + " tries to guess a number between 1 and 20."); // Instructions
+		
+		// while loop to make sure the program wont loop forever
+		 while (tries > 0 && !boolGuess) {
+			 System.out.println("Please enter your guess, you have " + tries + " left: ");
+		     guess = scanner.nextInt();
+
+		     if (tries == 1) {
+		    	 boolGuess = true;
+		    	 System.out.println("Ah, out of tries. Please try again!\n");
+		     } else if (guess == randInt) {
+		    	 boolGuess = true;
+		         System.out.println("Congratulations! You got it right!/n");
+		     } else if (guess > randInt) {
+		         System.out.println("So close! Guess lower");
+		         tries--;
+		     } else if (guess < randInt) {
+		         System.out.println("So close! Guess higher"); 
+		         tries--;
+		     }
+		 }
+		
+	}
+	
+	static void diamond() {
+		String[][] diamond = {{"\n"," ", " ", " ", "*", " ", " ", " "}, // multi dimensional array with a diamond shaped with asterisks
+							  {"\n"," ", " ", "*", "*", "*", " ", " "},
+							  {"\n"," ", "*", "*", "*", "*", "*", " "},
+							  {"\n","*", "*", "*", "*", "*", "*", "*"},
+							  {"\n"," ", "*", "*", "*", "*", "*", " "},
+							  {"\n"," ", " ", "*", "*", "*", " ", " "},
+							  {"\n"," ", " ", " ", "*", " ", " ", " "}};
+		System.out.println(Arrays.deepToString(diamond) + "\n");
+	}
+	
+	static void journal() {
+		 List<JournalEntry> journal = new ArrayList<>(); // creates a new list called journal that can store objects of the type JournalEntry
+	        int entryOrder = 1; // Initialize the entry order counter
+	        Scanner scanner = new Scanner(System.in);
+
+	        loop: while (true) {
+	            System.out.println("\n------------ Personal Journal -------------"); // menu cap
+	            System.out.println("Please choose one of the following options:"); // Instructions
+	            System.out.println("1) Add Journal Entry");
+	            System.out.println("2) View Journal Entries");
+	            System.out.print("Enter your choice here: ");
+
+	            int choice = scanner.nextInt();
+	            scanner.nextLine(); // yoink the newline character
+
+	            switch (choice) {
+	                case 1:
+	                    System.out.print("Enter your journal entry: ");
+	                    String entryText = scanner.nextLine(); // yoink the actual journal entry
+
+	                    JournalEntry entry = new JournalEntry(entryText, entryOrder);
+	                    journal.add(entry);
+	                    entryOrder++; // increment the entry order counter
+	                    System.out.println("Your journal entry has been added successfully.");
+	                    break;
+	                case 2:
+	                    if (journal.isEmpty()) {
+	                        System.out.println("Your journal is empty.");
+	                    } else {
+	                        Collections.reverse(journal);
+	                        System.out.println("\nJournal Entries (Most Recent First):");
+	                        for (JournalEntry journalEntry : journal) {
+	                        	// call the getter methods
+	                            System.out.println("Entry Order: " + journalEntry.getEntryOrder());
+	                            System.out.println(journalEntry.getText());
+	                            System.out.println();
+	                        }
+	                        Collections.reverse(journal);
+	                    }
+	                    break;
+	                default:
+	                    System.out.println("The value you entered is invalid. Please try again.\n");
+	                    break;
+	            }
+	        }
+	    }
+	
+	static void passGen() {
+		
+		int length = 12; // password length
+		// character libraries for data sets
+        String lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+        String uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String digitChars = "0123456789";
+        String specialChars = "!@#$%^&*()-_=+[]{}|;:'\",.<>?";
+        
+        // build a single string that contains all the valid characters that can be used
+        StringBuilder validChars = new StringBuilder();
+        validChars.append(lowercaseChars);
+        validChars.append(uppercaseChars);
+        validChars.append(digitChars);
+        validChars.append(specialChars);
+
+        // Create a Random object for generating random numbers
+        Random random = new Random();
+        StringBuilder password = new StringBuilder();
+
+        // Generate the password
+        for (int i = 0; i < length; i++) {
+            // Generate a random index to select a character from validChars
+            int randomIndex = random.nextInt(validChars.length());
+            // Append the selected character to the password
+            password.append(validChars.charAt(randomIndex));
+        }
+
+        // Display the generated password
+        System.out.println("\nGenerated Password: " + password.toString() + "\n");
+    }
+
+ 
+	
+    public static void main(String[] args) {
+        String[] menuOptions = {"Calculate the Average", "Weather Program", "Hi-Lo Guessing Game", "Draw a Diamond", "Password Generator", "Personal Journal", "Terminate the Program"};// Actually create an array of menu options
+        Menu menu = new Menu(menuOptions); // Actually create a Menu instance with the provided options
+        
+        loop: while (true) {
+        	menu.display();// Finally display the menu options to the console
+        	int userIn = scanner.nextInt();
+        	
+        	switch(userIn) {
+        		case 1: 
+        			Average(); // option 1
+        			break;
+        		case 2:
+        			Weather(); // option 2
+        			break;
+        		case 3:
+        			HiLoGame(); // option 3
+        			break;
+        		case 4:
+        			 diamond(); // option 4
+        			 break;
+        		case 5: 
+        			passGen(); // option 5
+        			break;
+        		case 6:
+        			journal(); // option 6
+        			break;
+        		case 7:
+        			System.out.println("Program Terminated"); // option 7
+            	    break loop;
+        		default: // invalid input
+            		System.out.println("The value you entered is invalid. Please try again.\n");
+        			
+        	}
+        }
+    }
+}
